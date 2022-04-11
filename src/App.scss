@@ -6,12 +6,15 @@ $icons: white;
 html {
   background-color: $bacg;
 }
-svg{
+
+svg {
   fill: $icons;
 }
-body{
+
+body {
   margin: 0;
 }
+
 #container {
   color: #fff;
   text-align: center;
@@ -80,11 +83,11 @@ body{
     cursor: pointer;
     padding: 4px;
     border-radius: $radius;
+
     &:hover {
       box-shadow: $boxShadow;
     }
   }
-  
 }
 
 .editTask {
@@ -140,6 +143,7 @@ body{
   margin-top: 25px;
   border-radius: $radius;
   cursor: pointer;
+
   &:hover {
     box-shadow: $boxShadow;
   }
