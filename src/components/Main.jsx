@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "./Cards";
+import EditForm from "./EditForm";
 
 const url = "http://localhost:8000";
 
@@ -8,12 +9,12 @@ const Main = () => {
   const [allTasks, setTask] = useState([]);
   const [isCheck, setCheckbox] = useState(Boolean);
   const [text, setText] = useState("");
+  let flag = true;
   useEffect(() => {
     axios
       .get(`${url}/allTasks`)
       .then(function (response) {
         setTask(response.data.data);
-        console.log(response.data.data);
       })
       .catch(function (error) {
         console.warn(error);
@@ -21,13 +22,14 @@ const Main = () => {
   }, []);
 
   const deleteAllTasks = async () => {
-    axios.delete(`${url}/deleteAll`)
-    .then((result) => setTask(result.data.data));
+    axios
+      .delete(`${url}/deleteAll`)
+      .then((result) => setTask(result.data.data));
   };
   const createTask = () => {
     if (text) {
       axios
-        .post(`${url}/createTask`, { text: text })
+        .post(`${url}/createTask`, { text: text, isCheck: false })
         .then(function (response) {
           setTask(response.data.data);
         })
@@ -36,11 +38,14 @@ const Main = () => {
         });
     }
   };
+  allTasks.sort((a, b) => {
+    return a.isCheck - b.isCheck;
+  });
 
   return (
     <div id="container">
-      <h1>To-do-lists</h1>
-      <div>
+      <div id="header">
+        <h1>To-do-lists</h1>
         <input
           type="text"
           id="inpCreator"
@@ -54,26 +59,48 @@ const Main = () => {
             setText(e.target.value);
           }}
         />
-        <button id="but1" 
-        title="Создать новую задачу"
-        onClick={() => createTask()}>
+        <button
+          id="but1"
+          title="Создать новую задачу"
+          onClick={() => createTask()}>
           Add
         </button>
-        <div className="control" 
-        id="leftControl" 
-        title="Удалить все задачи" >
-          <svg id="deleteAll" onClick={deleteAllTasks} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <div
+          className="control"
+          id="leftControl"
+          title="Удалить все задачи">
+          <svg
+            id="deleteAll"
+            onClick={deleteAllTasks}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512">
             <path d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z" />
           </svg>
         </div>
+        <h2>Output will be here</h2>
       </div>
-      <h2>Output will be here</h2>
       <div id="output">
         {allTasks.map((elem, index) => {
-          return <Card key={index} 
-          text={elem.text} 
-          checkbox={elem.isCheck} 
-          id={elem._id} />;
+          const { id, text, ischeck } = elem;
+          if (flag) {
+            return (
+              <Card
+                key={index}
+                text={elem.text}
+                checkbox={elem.isCheck}
+                id={elem._id}
+              />
+            );
+          } else {
+            return (
+              <EditForm
+                key={id}
+                checkbox={ischeck}
+                oldText={text}
+                id={id}
+              />
+            );
+          }
         })}
       </div>
     </div>
