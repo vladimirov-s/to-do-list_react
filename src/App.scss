@@ -1,0 +1,154 @@
+$bacg: #222222;
+$boxShadow: 0 0 15px 1px rgba(128, 128, 128, 0.211);
+$radius: 6px;
+$icons: white;
+
+html {
+  background-color: $bacg;
+}
+
+svg {
+  fill: $icons;
+}
+
+body {
+  margin: 0;
+}
+
+#container {
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0 2rem 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 15px;
+  box-shadow: 0 0 15px 1px #000;
+
+  input {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    line-height: 1.8;
+    outline: 0;
+  }
+
+  button {
+    font-size: 1.3rem;
+    padding: 6px 7px;
+    position: relative;
+    top: 1px;
+    min-width: 70px;
+
+    &:hover {
+      box-shadow: 0 0 5px 1px rgb(184, 181, 181);
+    }
+  }
+}
+
+#output {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  font-size: 1.4rem;
+}
+
+.task {
+  flex: calc(20% - 2rem);
+  position: relative;
+  align-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: calc(25% - 2rem);
+  margin: 0 1rem 2rem 1rem;
+  background-color: lighten($bacg, 5%);
+  border-radius: 6px;
+
+  input {
+    &[type=checkbox] {
+      flex: 3%;
+      margin-right: 1rem;
+    }
+
+    &[type=text] {
+      max-width: calc(100% - .7rem);
+    }
+  }
+
+  i {
+    flex: 33%;
+    max-width: 25px;
+    position: relative;
+    left: 5px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: $radius;
+
+    &:hover {
+      box-shadow: $boxShadow;
+    }
+  }
+}
+
+.editTask {
+  border-radius: $radius;
+  position: absolute;
+  flex: 100%;
+  max-width: 100%;
+  top: -.1rem;
+  background-color: lighten($bacg, 30%);
+}
+
+.posR {
+  position: relative;
+}
+
+.red-text {
+  color: red;
+}
+
+.text-task {
+  color: inherit;
+  white-space: nowrap;
+  flex: 80%;
+  overflow: hidden;
+  max-width: 80%;
+  text-overflow: ellipsis;
+  margin-block: 0;
+
+  &:hover {
+    white-space: pre-wrap;
+  }
+}
+
+.done-text {
+  color: rgb(110, 110, 110);
+  text-decoration: line-through;
+}
+
+.none {
+  display: none !important;
+}
+
+#leftControl {
+  height: 0;
+  display: flex;
+  justify-content: start;
+
+}
+
+#deleteAll {
+  height: 25px;
+  padding: 5px;
+  margin-top: 25px;
+  border-radius: $radius;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: $boxShadow;
+  }
+}
+
+.control {
+  margin: 0 1rem;
+}
