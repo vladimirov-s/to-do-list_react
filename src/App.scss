@@ -66,8 +66,24 @@ body {
   height: 49rem;
 }
 
+.editTask {
+  border-radius: $radius;
+  position: absolute;
+  flex: 100%;
+  max-width: 100%;
+  background-color: lighten($bacg, 30%);
+}
+
+.task-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 .task {
   flex: calc(20% - 2rem);
+  min-height: 83px;
   position: relative;
   align-content: center;
   display: flex;
@@ -103,15 +119,6 @@ body {
       box-shadow: $boxShadow;
     }
   }
-}
-
-.editTask {
-  border-radius: $radius;
-  position: absolute;
-  flex: 100%;
-  max-width: 100%;
-  top: -.1rem;
-  background-color: lighten($bacg, 30%);
 }
 
 .posR {

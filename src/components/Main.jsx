@@ -1,46 +1,50 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Card from "./Cards";
-import EditForm from "./EditForm";
+import React, { useEffect, useState } from "react"
+import axios from "axios"
+import Card from "./Cards"
+import EditForm from "./EditForm"
 
-const url = "http://localhost:8000";
+const url = "http://localhost:8000"
 
 const Main = () => {
-  const [allTasks, setTask] = useState([]);
-  const [isCheck, setCheckbox] = useState(Boolean);
-  const [text, setText] = useState("");
-  let flag = true;
+  const [allTasks, setTask] = useState([])
+  const [isCheck, setCheckbox] = useState(Boolean)
+  const [text, setText] = useState("")
+  const [indexEditTask, setIndexEditTask] =
+    useState(-1)
   useEffect(() => {
     axios
       .get(`${url}/allTasks`)
       .then(function (response) {
-        setTask(response.data.data);
+        setTask(response.data.data)
       })
       .catch(function (error) {
-        console.warn(error);
-      });
-  }, []);
+        console.warn(error)
+      })
+  }, [])
 
   const deleteAllTasks = async () => {
     axios
       .delete(`${url}/deleteAll`)
-      .then((result) => setTask(result.data.data));
-  };
+      .then((result) => setTask(result.data.data))
+  }
   const createTask = () => {
     if (text) {
       axios
-        .post(`${url}/createTask`, { text: text, isCheck: false })
+        .post(`${url}/createTask`, {
+          text: text,
+          isCheck: false,
+        })
         .then(function (response) {
-          setTask(response.data.data);
+          setTask(response.data.data)
         })
         .catch(function (error) {
-          console.log(error);
-        });
+          console.log(error)
+        })
     }
-  };
+  }
   allTasks.sort((a, b) => {
-    return a.isCheck - b.isCheck;
-  });
+    return a.isCheck - b.isCheck
+  })
 
   return (
     <div id="container">
@@ -54,9 +58,9 @@ const Main = () => {
           title="Создание новой задачи"
           onKeyUp={(e) => {
             if (e.keyCode == 13) {
-              createTask();
+              createTask()
             }
-            setText(e.target.value);
+            setText(e.target.value)
           }}
         />
         <button
@@ -80,30 +84,26 @@ const Main = () => {
         <h2>Output will be here</h2>
       </div>
       <div id="output">
-        {allTasks.map((elem, index) => {
-          const { id, text, ischeck } = elem;
-          if (flag) {
-            return (
+        {allTasks.map((task, index) => (
+          //передаем каждый таск, индекс и флаг в виде стейта в компонент
+          <div className="task" key={`task-${index}`}>
+            {index !== indexEditTask && (
               <Card
-                key={index}
-                text={elem.text}
-                checkbox={elem.isCheck}
-                id={elem._id}
+                index={index}
+                task={task}
+                setIndexEditTask={setIndexEditTask}
               />
-            );
-          } else {
-            return (
+            )}
+            {index === indexEditTask && (
               <EditForm
-                key={id}
-                checkbox={ischeck}
-                oldText={text}
-                id={id}
+                task={task}
+                setIndexEditTask={setIndexEditTask}
               />
-            );
-          }
-        })}
+            )}
+          </div>
+        ))}
       </div>
     </div>
-  );
-};
-export default Main;
+  )
+}
+export default Main
