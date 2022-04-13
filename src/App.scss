@@ -171,6 +171,10 @@ body {
   &:hover {
     box-shadow: $boxShadow;
   }
+
+  svg {
+    height: 100%;
+  }
 }
 
 .control {

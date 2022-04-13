@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 import Card from "./Cards"
 import EditForm from "./EditForm"
+import { trash } from "./Pics"
 
 const url = "http://localhost:8000"
 const headers = {
@@ -105,19 +106,14 @@ const Main = () => {
           className="control"
           id="leftControl"
           title="Удалить все задачи">
-          <svg
-            id="deleteAll"
-            onClick={deleteAllTasks}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512">
-            <path d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z" />
-          </svg>
+          <i id="deleteAll" onClick={deleteAllTasks}>
+            {trash}
+          </i>
         </div>
         <h2>Output will be here</h2>
       </div>
       <div id="output">
         {allTasks.map((task, index) => (
-          //передаем каждый таск, индекс и флаг в виде стейта в компонент
           <div className="task" key={`task-${index}`}>
             {index !== indexEditTask && (
               <Card
@@ -137,7 +133,9 @@ const Main = () => {
                 newText={newText}
                 url={url}
                 updateValues={updateValues}
-                handleChangeInfoTask={handleChangeInfoTask}
+                handleChangeInfoTask={
+                  handleChangeInfoTask
+                }
               />
             )}
           </div>
