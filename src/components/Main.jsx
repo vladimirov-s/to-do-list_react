@@ -4,23 +4,54 @@ import Card from "./Cards"
 import EditForm from "./EditForm"
 
 const url = "http://localhost:8000"
+const headers = {
+  "Content-Type": "application/json;charset=utf-8",
+  "Access-Control-Allow-Origin": "*",
+}
 
 const Main = () => {
   const [allTasks, setTask] = useState([])
-  const [isCheck, setCheckbox] = useState(Boolean)
+  const [newText, setNewText] = useState("")
   const [text, setText] = useState("")
   const [indexEditTask, setIndexEditTask] =
     useState(-1)
   useEffect(() => {
     axios
       .get(`${url}/allTasks`)
-      .then(function (response) {
+      .then((response) => {
         setTask(response.data.data)
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.warn(error)
       })
   }, [])
+  const handleChangeInfoTask = (newTask) => {
+    const { _id } = newTask
+    const temparr = allTasks.map((elem) => {
+      if (elem._id === _id) {
+        elem = newTask
+      }
+
+      return elem
+    })
+    setIndexEditTask(-1)
+    setTask([...temparr])
+  }
+
+  const updateValues = (_id, newText, isCheck) => {
+    const text = newText
+    const body = { _id, text, isCheck }
+    axios
+      .patch(`${url}/updateTask`, body, {
+        headers,
+      })
+      .then((result) => {
+        handleChangeInfoTask(body)
+      })
+      .catch((err) => {
+        console.warn(err)
+      })
+  }
 
   const deleteAllTasks = async () => {
     axios
@@ -45,7 +76,6 @@ const Main = () => {
   allTasks.sort((a, b) => {
     return a.isCheck - b.isCheck
   })
-
   return (
     <div id="container">
       <div id="header">
@@ -53,12 +83,14 @@ const Main = () => {
         <input
           type="text"
           id="inpCreator"
+          autoFocus
           className="posR"
           placeholder="Наименование задачи"
           title="Создание новой задачи"
           onKeyUp={(e) => {
-            if (e.keyCode == 13) {
+            if (e.keyCode === 13) {
               createTask()
+              e.target.value = ""
             }
             setText(e.target.value)
           }}
@@ -92,12 +124,20 @@ const Main = () => {
                 index={index}
                 task={task}
                 setIndexEditTask={setIndexEditTask}
+                url={url}
+                setTask={setTask}
+                updateValues={updateValues}
               />
             )}
             {index === indexEditTask && (
               <EditForm
                 task={task}
                 setIndexEditTask={setIndexEditTask}
+                setNewText={setNewText}
+                newText={newText}
+                url={url}
+                updateValues={updateValues}
+                handleChangeInfoTask={handleChangeInfoTask}
               />
             )}
           </div>

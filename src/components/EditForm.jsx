@@ -1,18 +1,42 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 
-const EditForm = ({ task }) => {
-  const { text, id } = task
+const EditForm = ({
+  task,
+  setNewText,
+  newText,
+  updateValues,
+  handleChangeInfoTask,
+}) => {
+  const { text, _id } = task
   return (
     <div className="editTask">
       <input
-        id={`input-${id}`}
+        id={`input-${_id}`}
+        autoFocus
         type="text"
         title="ESC для отмены, ENTER для ввода"
         placeholder="Редактирование задачи"
-        value={text}
+        defaultValue={text}
+        onChange={(e) => {
+          setNewText(e.target.value)
+        }}
+        onKeyUp={(e) => {
+          if (e.keyCode === 13) {
+            updateValues()
+          }
+          setNewText(e.target.value)
+        }}
       />
-      <button>Save</button>
-      <button>Cancel</button>
+      <button
+        onClick={() => updateValues(_id, newText)}>
+        Save
+      </button>
+      <button
+        onClick={() => {
+          handleChangeInfoTask(_id)
+        }}>
+        Cancel
+      </button>
     </div>
   )
 }
