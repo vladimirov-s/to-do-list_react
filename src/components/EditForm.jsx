@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 const EditForm = ({
   task,
@@ -7,24 +7,24 @@ const EditForm = ({
   updateValues,
   handleChangeInfoTask,
 }) => {
-  const { text, _id } = task
+  const { text, _id } = task;
   return (
-    <div className="editTask">
+    <div className='editTask'>
       <input
         id={`input-${_id}`}
         autoFocus
-        type="text"
-        title="ESC для отмены, ENTER для ввода"
-        placeholder="Редактирование задачи"
+        type='text'
+        title='ESC для отмены, ENTER для ввода'
+        placeholder='Редактирование задачи'
         defaultValue={text}
-        onChange={(e) => {
-          setNewText(e.target.value)
+        onChange={e => {
+          setNewText(e.target.value);
         }}
-        onKeyUp={(e) => {
+        onKeyUp={e => {
           if (e.keyCode === 13) {
-            updateValues()
+            updateValues();
           }
-          setNewText(e.target.value)
+          setNewText(e.target.value);
         }}
       />
       <button
@@ -33,12 +33,12 @@ const EditForm = ({
       </button>
       <button
         onClick={() => {
-          handleChangeInfoTask(_id)
+          handleChangeInfoTask(_id);
         }}>
         Cancel
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default EditForm
+export default EditForm;

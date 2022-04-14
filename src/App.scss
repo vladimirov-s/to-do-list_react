@@ -125,8 +125,35 @@ body {
   position: relative;
 }
 
+.posF {
+  position: fixed;
+}
+
 .red-text {
   color: red;
+}
+
+.dnone {
+  display: none !important;
+}
+
+body .fadeOut {
+  opacity: 0;
+}
+
+#alertContainer {
+  z-index: 8;
+  font-size: 4rem;
+  background-color: $bacg;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  opacity: 1;
+  justify-content: center;
+  border: 1px solid transparent;
+  transition: 1s opacity linear;
 }
 
 .text-task {
@@ -219,5 +246,4 @@ body {
     max-width: 88%;
     flex: 88%;
   }
-
 }

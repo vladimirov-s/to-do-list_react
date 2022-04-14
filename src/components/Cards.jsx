@@ -1,6 +1,6 @@
-import React from "react"
-import axios from "axios"
-import { close, edit } from "./Pics"
+import React from "react";
+import axios from "axios";
+import { close, edit } from "./Pics";
 
 const Card = ({
   index,
@@ -9,34 +9,38 @@ const Card = ({
   url,
   setTask,
   updateValues,
+  setSnackOpen,
+  setNoteText,
+  setTypeSnack,
 }) => {
-  const { text, _id, isCheck = false } = task
+  const { text, _id, isCheck = false } = task;
 
-  const updateTextValue = (index) => {
-    setIndexEditTask(index)
-  }
+  const updateTextValue = index => {
+    setIndexEditTask(index);
+  };
 
-  const updateIsCheck = (_id, string, isCheck) => {
-    setIndexEditTask(_id)
-    updateValues(_id, string, isCheck)
-  }
-
-  const imageDeleteOneTask = (id) => {
+  const imageDeleteOneTask = id => {
     axios
       .delete(`${url}/deleteTask?id=${id}`)
-      .then((result) => {
-        setTask(result.data.data)
+      .then(result => {
+        setTask(result.data.data);
       })
-  }
+      .catch(function (error) {
+        setSnackOpen(true);
+        setTypeSnack("error");
+        setNoteText("что то пошло не так ((");
+      });
+  };
 
   return (
-    <div id={_id} className="task-content">
+    <div id={_id} className='task-content'>
       <input
-        className="checkbox"
-        type="checkbox"
+        className='checkbox'
+        type='checkbox'
         checked={isCheck}
         onChange={() => {
-          updateIsCheck(_id, text, !isCheck)
+          setIndexEditTask(_id);
+          updateValues(_id, text, !isCheck);
         }}
       />
       <p
@@ -50,7 +54,7 @@ const Card = ({
       </p>
       {!isCheck ? (
         <i
-          title="Edit"
+          title='Edit'
           onClick={() => updateTextValue(index)}>
           {edit}
         </i>
@@ -58,12 +62,11 @@ const Card = ({
         false
       )}
       <i
-        title="Delete"
+        title='Delete'
         onClick={() => imageDeleteOneTask(_id)}>
         {close}
       </i>
     </div>
-  )
-}
-
-export default Card
+  );
+};
+export default Card;
