@@ -6,7 +6,6 @@ const EditForm = ({
   newText,
   updateValues,
   setIndexEditTask,
-  // handleChangeInfoTask,
 }) => {
   const { text, _id } = task;
 

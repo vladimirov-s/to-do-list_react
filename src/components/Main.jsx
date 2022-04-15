@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "./Cards";
 import EditForm from "./EditForm";
@@ -151,7 +151,6 @@ const Main = () => {
                 newText={newText}
                 url={url}
                 updateValues={updateValues}
-                // handleChangeInfoTask={handleChangeInfoTask}
               />
             )}
           </div>
