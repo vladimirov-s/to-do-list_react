@@ -1,8 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  Component,
-} from "react";
+import React, { useEffect, useState, Component } from "react";
 import axios from "axios";
 import Card from "./Cards";
 import EditForm from "./EditForm";
@@ -22,8 +18,8 @@ const Main = () => {
   const [note, setNoteText] = useState("");
   const [type, setTypeSnack] = useState("error");
   const [isSnackOpen, setSnackOpen] = useState(false);
-  const [indexEditTask, setIndexEditTask] =
-    useState(-1);
+  const [indexEditTask, setIndexEditTask] = useState(-1);
+
   useEffect(() => {
     axios
       .get(`${url}/allTasks`)
@@ -36,13 +32,13 @@ const Main = () => {
         setNoteText("что то пошло не так ((");
       });
   }, []);
+
   const handleChangeInfoTask = newTask => {
     const { _id } = newTask;
     const temparr = allTasks.map(elem => {
       if (elem._id === _id) {
         elem = newTask;
       }
-
       return elem;
     });
     setIndexEditTask(-1);
@@ -57,7 +53,16 @@ const Main = () => {
         headers,
       })
       .then(result => {
-        handleChangeInfoTask(body);
+        if (Array.isArray(result.data.data)) {
+          handleChangeInfoTask(body);
+          setTask(result.data.data);
+        } else {
+          setSnackOpen(true);
+          setTypeSnack("error");
+          setNoteText(
+            "Нормальное название своему заданию давай."
+          );
+        }
       })
       .catch(err => {
         setSnackOpen(true);
@@ -72,28 +77,29 @@ const Main = () => {
     });
   };
   const createTask = () => {
-    // if (text) {
-    axios
-      .post(`${url}/createTask`, {
-        text: text,
-        isCheck: false,
-      })
-      .then(function (response) {
-        if (Array.isArray(response.data.data)) {
-          setTask(response.data.data);
-        } else {
+    const tmpText = text.trim();
+    if (tmpText) {
+      axios
+        .post(`${url}/createTask`, {
+          text: tmpText,
+          isCheck: false,
+        })
+        .then(function (response) {
+          if (Array.isArray(response.data.data)) {
+            setTask(response.data.data);
+          } else {
+            setSnackOpen(true);
+            setTypeSnack("error");
+            setNoteText(response);
+          }
+        })
+        .catch(function (error) {
           setSnackOpen(true);
           setTypeSnack("error");
-          setNoteText(response);
-        }
-      })
-      .catch(function (error) {
-        setSnackOpen(true);
-        setTypeSnack("error");
-        setNoteText(error.data);
-        console.log(error.data);
-      });
-    // }
+          setNoteText(error.data);
+          console.warn(error.data);
+        });
+    }
   };
 
   allTasks.sort((a, b) => {
@@ -158,9 +164,7 @@ const Main = () => {
                 newText={newText}
                 url={url}
                 updateValues={updateValues}
-                handleChangeInfoTask={
-                  handleChangeInfoTask
-                }
+                handleChangeInfoTask={handleChangeInfoTask}
               />
             )}
           </div>
@@ -170,9 +174,9 @@ const Main = () => {
         open={isSnackOpen}
         string={note}
         type={type}
-        // handleClose={() => {
-        //   setSnackOpen(false);
-        // }}
+        handleClose={() => {
+          setSnackOpen(false);
+        }}
       />
     </div>
   );
