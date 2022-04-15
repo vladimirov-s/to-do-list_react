@@ -33,18 +33,6 @@ const Main = () => {
       });
   }, []);
 
-  const handleChangeInfoTask = newTask => {
-    const { _id } = newTask;
-    const temparr = allTasks.map(elem => {
-      if (elem._id === _id) {
-        elem = newTask;
-      }
-      return elem;
-    });
-    setIndexEditTask(-1);
-    setTask([...temparr]);
-  };
-
   const updateValues = (_id, newText, isCheck) => {
     const text = newText;
     const body = { _id, text, isCheck };
@@ -54,7 +42,7 @@ const Main = () => {
       })
       .then(result => {
         if (Array.isArray(result.data.data)) {
-          handleChangeInfoTask(body);
+          setIndexEditTask(-1);
           setTask(result.data.data);
         } else {
           setSnackOpen(true);
@@ -84,7 +72,7 @@ const Main = () => {
           text: tmpText,
           isCheck: false,
         })
-        .then(function (response) {
+        .then(response => {
           if (Array.isArray(response.data.data)) {
             setTask(response.data.data);
           } else {
@@ -93,11 +81,10 @@ const Main = () => {
             setNoteText(response);
           }
         })
-        .catch(function (error) {
+        .catch(error => {
           setSnackOpen(true);
           setTypeSnack("error");
           setNoteText(error.data);
-          console.warn(error.data);
         });
     }
   };
@@ -164,7 +151,7 @@ const Main = () => {
                 newText={newText}
                 url={url}
                 updateValues={updateValues}
-                handleChangeInfoTask={handleChangeInfoTask}
+                // handleChangeInfoTask={handleChangeInfoTask}
               />
             )}
           </div>

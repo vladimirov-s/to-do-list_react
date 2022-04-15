@@ -5,9 +5,11 @@ const EditForm = ({
   setNewText,
   newText,
   updateValues,
-  handleChangeInfoTask,
+  setIndexEditTask,
+  // handleChangeInfoTask,
 }) => {
   const { text, _id } = task;
+
   return (
     <div className='editTask'>
       <input
@@ -27,13 +29,12 @@ const EditForm = ({
           setNewText(e.target.value);
         }}
       />
-      <button
-        onClick={() => updateValues(_id, newText)}>
+      <button onClick={() => updateValues(_id, newText)}>
         Save
       </button>
       <button
         onClick={() => {
-          handleChangeInfoTask(_id);
+          setIndexEditTask(_id);
         }}>
         Cancel
       </button>

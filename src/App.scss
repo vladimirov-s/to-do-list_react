@@ -33,6 +33,8 @@ body {
     letter-spacing: 1px;
     line-height: 1.8;
     outline: 0;
+    border-radius: $radius;
+    border: 1px solid #22222288;
   }
 
   button {
@@ -40,7 +42,10 @@ body {
     padding: 6px 7px;
     position: relative;
     top: 1px;
+    border: 1px solid #22222288;
     min-width: 70px;
+    max-width: 75px;
+    border-radius: $radius;
 
     &:hover {
       box-shadow: 0 0 5px 1px rgb(184, 181, 181);
@@ -83,7 +88,7 @@ body {
 
 .task {
   flex: calc(20% - 2rem);
-  min-height: 83px;
+  min-height: 85px;
   position: relative;
   align-content: center;
   display: flex;
@@ -102,7 +107,7 @@ body {
     }
 
     &[type=text] {
-      max-width: calc(100% - .7rem);
+      max-width: calc(100% - 6px);
     }
   }
 

@@ -25,7 +25,7 @@ const Card = ({
       .then(result => {
         setTask(result.data.data);
       })
-      .catch(function (error) {
+      .catch(error => {
         setSnackOpen(true);
         setTypeSnack("error");
         setNoteText("что то пошло не так ((");
@@ -46,9 +46,7 @@ const Card = ({
       <p
         id={`text-${_id}`}
         className={
-          !isCheck
-            ? "text-task"
-            : "text-task done-text"
+          !isCheck ? "text-task" : "text-task done-text"
         }>
         {text}
       </p>
