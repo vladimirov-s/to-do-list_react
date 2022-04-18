@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
+import {
+  Routes,
+  Route,
+  Link,
+  Switch,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
 import axios from "axios";
 import Card from "./Cards";
 import EditForm from "./EditForm";
-import { trash } from "./Pics";
+import { pics } from "./Pics";
 import Snack from "./Snack";
 
 const url = "http://localhost:8000";
@@ -13,13 +21,11 @@ const headers = {
 
 const Main = () => {
   const [allTasks, setTask] = useState([]);
-  const [newText, setNewText] = useState("");
   const [text, setText] = useState("");
   const [note, setNoteText] = useState("");
   const [type, setTypeSnack] = useState("error");
   const [isSnackOpen, setSnackOpen] = useState(false);
   const [indexEditTask, setIndexEditTask] = useState(-1);
-
   useEffect(() => {
     axios
       .get(`${url}/allTasks`)
@@ -123,7 +129,7 @@ const Main = () => {
           id='leftControl'
           title='Удалить все задачи'>
           <i id='deleteAll' onClick={deleteAllTasks}>
-            {trash}
+            {pics.trash}
           </i>
         </div>
         <h2>Output will be here</h2>
@@ -143,7 +149,7 @@ const Main = () => {
                 updateValues={updateValues}
               />
             )}
-            {index === indexEditTask && (
+            {/* {index === indexEditTask && (
               <EditForm
                 task={task}
                 setIndexEditTask={setIndexEditTask}
@@ -152,7 +158,7 @@ const Main = () => {
                 url={url}
                 updateValues={updateValues}
               />
-            )}
+            )} */}
           </div>
         ))}
       </div>

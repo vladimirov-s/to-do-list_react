@@ -1,6 +1,7 @@
 import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { close, edit } from "./Pics";
+import { pics } from "./Pics";
 
 const Card = ({
   index,
@@ -13,11 +14,9 @@ const Card = ({
   setNoteText,
   setTypeSnack,
 }) => {
+  const history = useNavigate();
+  const params = useParams();
   const { text, _id, isCheck = false } = task;
-
-  const updateTextValue = index => {
-    setIndexEditTask(index);
-  };
 
   const imageDeleteOneTask = id => {
     axios
@@ -40,7 +39,7 @@ const Card = ({
         checked={isCheck}
         onChange={() => {
           setIndexEditTask(_id);
-          updateValues(_id, text, !isCheck);
+          updateValues(_id, "", !isCheck);
         }}
       />
       <p
@@ -53,8 +52,10 @@ const Card = ({
       {!isCheck ? (
         <i
           title='Edit'
-          onClick={() => updateTextValue(index)}>
-          {edit}
+          onClick={() => {
+            history(`/edit${_id}`);
+          }}>
+          {pics.edit}
         </i>
       ) : (
         false
@@ -62,7 +63,7 @@ const Card = ({
       <i
         title='Delete'
         onClick={() => imageDeleteOneTask(_id)}>
-        {close}
+        {pics.close}
       </i>
     </div>
   );
