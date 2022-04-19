@@ -1,0 +1,180 @@
+import React, {
+  useEffect,
+  useState,
+  Component,
+} from "react";
+import axios from "axios";
+import Card from "./Cards";
+import EditForm from "./EditForm";
+import { trash } from "./Pics";
+import Snack from "./Snack";
+
+const url = "http://localhost:8000";
+const headers = {
+  "Content-Type": "application/json;charset=utf-8",
+  "Access-Control-Allow-Origin": "*",
+};
+
+const Main = () => {
+  const [allTasks, setTask] = useState([]);
+  const [newText, setNewText] = useState("");
+  const [text, setText] = useState("");
+  const [note, setNoteText] = useState("");
+  const [type, setTypeSnack] = useState("error");
+  const [isSnackOpen, setSnackOpen] = useState(false);
+  const [indexEditTask, setIndexEditTask] =
+    useState(-1);
+  useEffect(() => {
+    axios
+      .get(`${url}/allTasks`)
+      .then(response => {
+        setTask(response.data.data);
+      })
+      .catch(error => {
+        setSnackOpen(true);
+        setTypeSnack("error");
+        setNoteText("что то пошло не так ((");
+      });
+  }, []);
+  const handleChangeInfoTask = newTask => {
+    const { _id } = newTask;
+    const temparr = allTasks.map(elem => {
+      if (elem._id === _id) {
+        elem = newTask;
+      }
+
+      return elem;
+    });
+    setIndexEditTask(-1);
+    setTask([...temparr]);
+  };
+
+  const updateValues = (_id, newText, isCheck) => {
+    const text = newText;
+    const body = { _id, text, isCheck };
+    axios
+      .patch(`${url}/updateTask`, body, {
+        headers,
+      })
+      .then(result => {
+        handleChangeInfoTask(body);
+      })
+      .catch(err => {
+        setSnackOpen(true);
+        setTypeSnack("error");
+        setNoteText("что то пошло не так ((");
+      });
+  };
+
+  const deleteAllTasks = async () => {
+    axios.delete(`${url}/deleteAll`).then(result => {
+      setTask(result.data.data);
+    });
+  };
+  const createTask = () => {
+    // if (text) {
+    axios
+      .post(`${url}/createTask`, {
+        text: text,
+        isCheck: false,
+      })
+      .then(function (response) {
+        if (Array.isArray(response.data.data)) {
+          setTask(response.data.data);
+        } else {
+          setSnackOpen(true);
+          setTypeSnack("error");
+          setNoteText(response);
+        }
+      })
+      .catch(function (error) {
+        setSnackOpen(true);
+        setTypeSnack("error");
+        setNoteText(error.data);
+        console.log(error.data);
+      });
+    // }
+  };
+
+  allTasks.sort((a, b) => {
+    return a.isCheck - b.isCheck;
+  });
+
+  return (
+    <div id='container'>
+      <div id='header'>
+        <h1>To-do-lists</h1>
+        <input
+          type='text'
+          id='inpCreator'
+          autoFocus
+          className='posR'
+          placeholder='Наименование задачи'
+          title='Создание новой задачи'
+          onKeyUp={e => {
+            if (e.keyCode === 13) {
+              createTask();
+              e.target.value = "";
+            }
+            setText(e.target.value);
+          }}
+        />
+        <button
+          id='but1'
+          title='Создать новую задачу'
+          onClick={() => createTask()}>
+          Add
+        </button>
+        <div
+          className='control'
+          id='leftControl'
+          title='Удалить все задачи'>
+          <i id='deleteAll' onClick={deleteAllTasks}>
+            {trash}
+          </i>
+        </div>
+        <h2>Output will be here</h2>
+      </div>
+      <div id='output'>
+        {allTasks.map((task, index) => (
+          <div className='task' key={`task-${index}`}>
+            {index !== indexEditTask && (
+              <Card
+                index={index}
+                task={task}
+                setIndexEditTask={setIndexEditTask}
+                url={url}
+                setTask={setTask}
+                setNoteText={setNoteText}
+                setTypeSnack={setTypeSnack}
+                updateValues={updateValues}
+              />
+            )}
+            {index === indexEditTask && (
+              <EditForm
+                task={task}
+                setIndexEditTask={setIndexEditTask}
+                setNewText={setNewText}
+                newText={newText}
+                url={url}
+                updateValues={updateValues}
+                handleChangeInfoTask={
+                  handleChangeInfoTask
+                }
+              />
+            )}
+          </div>
+        ))}
+      </div>
+      <Snack
+        open={isSnackOpen}
+        string={note}
+        type={type}
+        // handleClose={() => {
+        //   setSnackOpen(false);
+        // }}
+      />
+    </div>
+  );
+};
+export default Main;
