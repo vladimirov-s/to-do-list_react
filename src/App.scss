@@ -1,0 +1,254 @@
+$bacg: #333333;
+$boxShadow: 0 0 15px 1px rgba(128, 128, 128, 0.211);
+$radius: 6px;
+$icons: white;
+
+html {
+  background-color: $bacg;
+}
+
+svg {
+  fill: $icons;
+}
+
+body {
+  margin: 0;
+}
+
+#container {
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0 .2rem 0;
+  max-width: 1200px;
+  min-width: 330px;
+  width: calc(100% - 1rem);
+  border-radius: 15px;
+  box-shadow: 0 0 15px 1px #000;
+  position: fixed;
+  left: calc(50% - 600px);
+
+
+  input {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    line-height: 1.8;
+    outline: 0;
+    border-radius: $radius;
+    border: 1px solid #22222288;
+  }
+
+  button {
+    font-size: 1.3rem;
+    padding: 6px 7px;
+    position: relative;
+    top: 1px;
+    border: 1px solid #22222288;
+    min-width: 70px;
+    max-width: 75px;
+    border-radius: $radius;
+
+    &:hover {
+      box-shadow: 0 0 5px 1px rgb(184, 181, 181);
+    }
+  }
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  left: calc(50% - 160px);
+}
+
+#output {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  justify-content: left;
+  font-size: 1.4rem;
+  margin: 11rem 0 0 0;
+  overflow-y: auto;
+  height: 49rem;
+}
+
+.editTask {
+  border-radius: $radius;
+  position: absolute;
+  flex: 100%;
+  max-width: 100%;
+  background-color: lighten($bacg, 30%);
+}
+
+.task-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.task {
+  flex: calc(20% - 2rem);
+  min-height: 85px;
+  position: relative;
+  align-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: calc(20% - 2rem);
+  margin: 0 1rem 2rem 1rem;
+  background-color: lighten($bacg, 5%);
+  border-radius: 6px;
+
+  input {
+    &[type=checkbox] {
+      flex: 3%;
+      margin-right: 1rem;
+    }
+
+    &[type=text] {
+      max-width: calc(100% - 6px);
+    }
+  }
+
+  i {
+    flex: 33%;
+    max-width: 25px;
+    position: relative;
+    left: 5px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: $radius;
+
+    &:hover {
+      box-shadow: $boxShadow;
+    }
+  }
+}
+
+.posR {
+  position: relative;
+}
+
+.posF {
+  position: fixed;
+}
+
+.red-text {
+  color: red;
+}
+
+.dnone {
+  display: none !important;
+}
+
+body .fadeOut {
+  opacity: 0;
+}
+
+#alertContainer {
+  z-index: 8;
+  font-size: 4rem;
+  background-color: $bacg;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  opacity: 1;
+  justify-content: center;
+  border: 1px solid transparent;
+  transition: 1s opacity linear;
+}
+
+.text-task {
+  color: inherit;
+  white-space: nowrap;
+  flex: 80%;
+  overflow: hidden;
+  max-width: 80%;
+  text-overflow: ellipsis;
+  margin-block: 0;
+
+  &:hover {
+    white-space: pre-wrap;
+    text-overflow: clip;
+    overflow-x: auto;
+  }
+}
+
+.done-text {
+  color: rgb(110, 110, 110);
+  text-decoration: line-through;
+}
+
+.none {
+  display: none !important;
+}
+
+#leftControl {
+  height: 0;
+  display: flex;
+  justify-content: flex-start;
+
+}
+
+#deleteAll {
+  height: 25px;
+  padding: 5px;
+  margin-top: 15px;
+  border-radius: $radius;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: $boxShadow;
+  }
+
+  svg {
+    height: 100%;
+  }
+}
+
+.control {
+  margin: 0 1rem;
+}
+
+@media (max-width: 1200px) {
+  #container {
+    left: .5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .task {
+    flex: 33%;
+    margin: 0 .3rem 1rem .6rem;
+    max-width: calc(31% - .1rem);
+  }
+}
+
+@media (max-width: 750px) {
+  .task {
+    flex: 50%;
+    margin: 0 .2rem .4rem .2rem;
+    max-width: calc(50% - .5rem);
+  }
+
+  .text-task {
+    max-width: 85%;
+    flex: 85%;
+  }
+}
+
+@media (max-width: 500px) {
+  .task {
+    flex: 50%;
+    margin: 0 .2rem .4rem .2rem;
+    max-width: 100%;
+  }
+
+  .text-task {
+    max-width: 88%;
+    flex: 88%;
+  }
+}
