@@ -32,10 +32,10 @@ const Card = ({
   };
 
   return (
-    <div id={_id} className='task-content'>
+    <div id={_id} className="task-content">
       <input
-        className='checkbox'
-        type='checkbox'
+        className="checkbox"
+        type="checkbox"
         checked={isCheck}
         onChange={() => {
           setIndexEditTask(_id);
@@ -51,7 +51,7 @@ const Card = ({
       </p>
       {!isCheck ? (
         <i
-          title='Edit'
+          title="Edit"
           onClick={() => {
             history(`/edit${_id}`);
           }}>
@@ -61,7 +61,7 @@ const Card = ({
         false
       )}
       <i
-        title='Delete'
+        title="Delete"
         onClick={() => imageDeleteOneTask(_id)}>
         {pics.close}
       </i>

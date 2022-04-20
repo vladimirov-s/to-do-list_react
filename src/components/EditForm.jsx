@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { url, headers } from "./Address";
 import Snack from "./Snack";
 
 const EditForm = ({}) => {
@@ -8,11 +9,6 @@ const EditForm = ({}) => {
   const history = useNavigate();
   const [type, setTypeSnack] = useState("error");
   const [note, setNoteText] = useState("");
-  const url = "http://localhost:8000";
-  const headers = {
-    "Content-Type": "application/json;charset=utf-8",
-    "Access-Control-Allow-Origin": "*",
-  };
   const [newText, setNewText] = useState("");
   const [text, setText] = useState("");
 
@@ -34,9 +30,7 @@ const EditForm = ({}) => {
       .catch(err => {
         setSnackOpen(true);
         setTypeSnack("error");
-        setNoteText(
-          "Нормальное название своему заданию давай."
-        );
+        setNoteText("Нормальное название своему заданию давай.");
       });
   }, []);
 
@@ -54,9 +48,7 @@ const EditForm = ({}) => {
         } else {
           setSnackOpen(true);
           setTypeSnack("error");
-          setNoteText(
-            "Нормальное название своему заданию давай."
-          );
+          setNoteText("Нормальное название своему заданию давай.");
         }
       })
       .catch(err => {
@@ -87,9 +79,7 @@ const EditForm = ({}) => {
           setNewText(e.target.value);
         }}
       />
-      <button onClick={() => updateValues(task._id, newText)}>
-        Save
-      </button>
+      <button onClick={() => updateValues(task._id, newText)}>Save</button>
       <button onClick={() => history("/")}>Cancel</button>
       <Snack
         open={isSnackOpen}

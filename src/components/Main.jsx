@@ -8,16 +8,10 @@ import {
   Navigate,
 } from "react-router-dom";
 import axios from "axios";
+import { url, headers } from "./Address";
 import Card from "./Cards";
-import EditForm from "./EditForm";
-import { pics } from "./Pics";
 import Snack from "./Snack";
-
-const url = "http://localhost:8000";
-const headers = {
-  "Content-Type": "application/json;charset=utf-8",
-  "Access-Control-Allow-Origin": "*",
-};
+import { pics } from "./Pics";
 
 const Main = () => {
   const [allTasks, setTask] = useState([]);
@@ -53,9 +47,7 @@ const Main = () => {
         } else {
           setSnackOpen(true);
           setTypeSnack("error");
-          setNoteText(
-            "Нормальное название своему заданию давай."
-          );
+          setNoteText("Нормальное название своему заданию давай.");
         }
       })
       .catch(err => {
@@ -149,16 +141,6 @@ const Main = () => {
                 updateValues={updateValues}
               />
             )}
-            {/* {index === indexEditTask && (
-              <EditForm
-                task={task}
-                setIndexEditTask={setIndexEditTask}
-                setNewText={setNewText}
-                newText={newText}
-                url={url}
-                updateValues={updateValues}
-              />
-            )} */}
           </div>
         ))}
       </div>
